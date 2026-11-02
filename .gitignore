@@ -1,0 +1,9 @@
+.DS_Store
+.claude/
+dist/
+
+# NDA client pages: never commit these to a public repo (the password gate is client-side only)
+client-work.html
+work-*.html
+gate.js
+img/work-*.jpg
