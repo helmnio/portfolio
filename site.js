@@ -7,21 +7,24 @@ if(demo){
   {kind:'Action',orig:'The sea draws a long breath. Above the rocks, the lighthouse stands dark for the first time in a hundred years.',html:'The sea draws a long breath. Above the rocks, the lighthouse stands dark for the first time in a hundred years. <ins>Gulls wheel over the empty lamp room.</ins>',next:'The sea draws a long breath. Above the rocks, the lighthouse stands dark for the first time in a hundred years. Gulls wheel over the empty lamp room.'},
   {kind:'Action',orig:'MARA, 32, climbs the last stone step. A brass key turns in her hand.',html:'MARA, 32, climbs the last stone <del>step.</del><ins>step, out of breath.</ins> A brass key turns in her hand.',next:'MARA, 32, climbs the last stone step, out of breath. A brass key turns in her hand.'},
   {kind:'Dialogue',orig:'You could have left a light on.',html:'You could have left a light <del>on.</del><ins>on for me.</ins>',next:'You could have left a light on for me.'}];
- let state,saved,history;
+ let state,saved,history,applied;
  const $=s=>demo.querySelector(s);
- const reset=()=>{state=changes.map(()=> 'pending');saved=changes.map(c=>c.orig);history=null;render('Proposal received. Your saved script has not changed.')};
+ const reset=()=>{state=changes.map(()=> 'pending');saved=changes.map(c=>c.orig);history=null;applied=false;render('Proposal received. Your saved script has not changed.')};
  function render(msg){
-  $('#chg').innerHTML=changes.map((c,i)=>`<div class="chg ${state[i]}"><small style="font-family:Inter;color:var(--muted)">${c.kind} · ${state[i]}</small><div>${c.html}</div><div class="row"><button class="btn small" data-a="accepted" data-i="${i}" ${state[i]==='accepted'?'aria-pressed="true"':''}>Accept</button><button class="btn small" data-a="skipped" data-i="${i}">Skip</button></div></div>`).join('');
+  const f=document.activeElement;
+  const fk=f&&demo.contains(f)&&f.closest('#chg')?`[data-a="${f.dataset.a}"][data-i="${f.dataset.i}"]`:null;
+  $('#chg').innerHTML=changes.map((c,i)=>`<div class="chg ${state[i]}"><small style="font-family:Inter;color:var(--muted)">${c.kind} · ${state[i]}</small><div>${c.html}</div><div class="row"><button class="btn small" data-a="accepted" data-i="${i}" ${state[i]==='accepted'?'aria-pressed="true"':''} ${applied?'disabled':''}>Accept</button><button class="btn small" data-a="skipped" data-i="${i}" ${applied?'disabled':''}>Skip</button></div></div>`).join('');
   $('#saved').innerHTML=saved.map((t,i)=>`<p>${t===changes[i].next&&t!==changes[i].orig?'<span class="edited">'+t+'</span>':t}</p>`).join('');
   const n=state.filter(s=>s==='accepted').length;
-  $('#apply').disabled=n===0;$('#undo').disabled=!history;
+  $('#apply').disabled=n===0||applied;$('#all').disabled=applied;$('#undo').disabled=!history;
+  if(fk){const el=$(fk);if(el&&!el.disabled)el.focus()}
   $('#msg').textContent=msg;
  }
  demo.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.a){state[b.dataset.i]=b.dataset.a;const n=state.filter(s=>s==='accepted').length;render(n?`${n} accepted. Nothing is saved until you apply.`:'Proposal received. Your saved script has not changed.')}
   else if(b.id==='all'){state=state.map(()=> 'accepted');render('3 accepted. Nothing is saved until you apply.')}
-  else if(b.id==='apply'){history=[...saved];saved=saved.map((t,i)=>state[i]==='accepted'?changes[i].next:t);const n=state.filter(s=>s==='accepted').length;state=state.map(s=>s==='accepted'?'accepted':'skipped');render(`Saved ${n} change${n>1?'s':''}. Unchosen changes were discarded. Undo restores the previous version.`)}
-  else if(b.id==='undo'){saved=history;history=null;state=changes.map(()=> 'pending');render('Restored the previous version.')}
+  else if(b.id==='apply'){if(applied)return;applied=true;history=[...saved];saved=saved.map((t,i)=>state[i]==='accepted'?changes[i].next:t);const n=state.filter(s=>s==='accepted').length;state=state.map(s=>s==='accepted'?'accepted':'skipped');render(`Saved ${n} change${n>1?'s':''}. Unchosen changes were discarded. Undo restores the previous version.`);$('#undo').focus()}
+  else if(b.id==='undo'){saved=history;history=null;applied=false;state=changes.map(()=> 'pending');render('Restored the previous version.')}
   else if(b.id==='again')reset()});
  reset();
 }

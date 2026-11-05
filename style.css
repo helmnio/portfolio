@@ -31,6 +31,7 @@ h1 em:after{content:"";position:absolute;left:0;right:0;bottom:-.14em;height:9px
 .btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--accent);border-color:var(--accent);color:var(--accent)}
 .btn.primary{background:var(--fg);color:#fff}.btn.primary:hover{background:var(--accent);color:#fff;box-shadow:4px 4px 0 var(--fg)}
 .btn.small{padding:7px 12px;font-size:.7rem}
+.btn[aria-pressed="true"],.btn[aria-pressed="true"]:hover{background:var(--inst);border-color:var(--inst);color:#fff;box-shadow:none;transform:none}.btn[aria-pressed="true"]:disabled{opacity:.7}
 .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .frame{border-radius:2px;overflow:hidden;background:var(--card);box-shadow:var(--shadow);border:1.5px solid var(--fg);position:relative;transition:box-shadow .3s,transform .3s}
 .frame:hover{box-shadow:10px 10px 0 rgba(31,79,224,.16),0 24px 44px -22px rgba(11,31,77,.4)}
@@ -109,7 +110,7 @@ tbody tr:hover td{background:var(--bg2)}
 .toc{position:sticky;top:84px;font-size:.9rem;display:block}.toc a{display:block;color:var(--muted);text-decoration:none;padding:5px 0 5px 14px;border-left:2px solid var(--line)}.toc a:hover,.toc a.on{color:var(--accent);border-color:var(--accent)}
 .layout{display:grid;gap:56px;grid-template-columns:190px minmax(0,1fr)}
 .decision{display:grid;gap:6px 24px;grid-template-columns:140px 1fr;padding:22px 0;border-top:1.5px solid var(--line2);font-size:.97rem}.decision h3{grid-column:1/-1;margin-bottom:8px}.decision b{font:500 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);padding-top:3px}.decision p{margin:0}
-details{border:1.5px solid var(--line2);padding:14px 18px;background:var(--card);margin:18px 0}details[open]{border-color:var(--accent)}summary{cursor:pointer;font-weight:600}
+details{border:1.5px solid var(--line2);padding:0;background:var(--card);margin:18px 0}details[open]{border-color:var(--accent)}summary{cursor:pointer;font-weight:600;padding:14px 18px}summary:hover{background:var(--card2,rgba(0,0,0,.03))}details>:not(summary){margin-left:18px;margin-right:18px}details>:last-child{margin-bottom:18px}
 code{font:.86em var(--mono);background:var(--bg2);padding:2px 6px;border:1px solid var(--line)}
 .diagram{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin:28px 0}
 .diagram div{flex:1 1 150px;border:1.5px solid var(--line2);padding:16px;background:var(--card);font-size:.88rem;position:relative;transition:border-color .3s,transform .3s}
@@ -287,3 +288,28 @@ nav a:before{left:2px;top:6px}nav a:after{right:2px;bottom:6px}
 /* larger tap targets */
 .proj .links a{display:inline-block;padding:10px 2px}
 .btn.small{min-height:40px}
+
+/* Courier Pages case study */
+.cs-hero{padding-bottom:0}.cs-title{max-width:16ch}
+.cs-hero .lead.thesis{max-width:46rem;color:var(--fg);font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.35;margin-bottom:16px}
+.result{max-width:44rem;margin:0 0 28px;padding-left:16px;border-left:3px solid var(--accent);font-weight:500}
+.actions .tlink{align-self:center;font:500 .8rem var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--accent);padding:13px 4px}
+.cs-hero .hero-shot{margin-top:36px}.cs-hero .meta{margin-top:36px}
+.cs-layout{margin-top:40px}
+.cs{padding-bottom:64px}
+.cs section{padding:0;margin-top:72px}.cs section:first-child{margin-top:0}
+.cs h3{margin:32px 0 10px}.cs .decision h3{margin:0 0 8px}
+.cs .mt{margin-top:18px}
+.cs .fig{margin:20px 0}
+.cap{padding:14px 18px;font-size:.92rem;color:var(--muted);border-top:1px solid var(--line);margin:0}.cap strong{color:var(--fg)}
+.gallery.stack{grid-template-columns:1fr}
+.pinwrap{position:relative}
+.note{margin-top:12px;font-size:.9rem}
+.tcard{margin:12px 0;padding:8px 8px 4px}
+.cs details{margin:24px 0}
+.steps2{padding-left:1.2em;margin:0 0 16px}.steps2 li{margin-bottom:10px}
+.cmp .hunk{border-left:3px solid var(--line2);padding:8px 10px;margin-bottom:10px;background:#fff}.cmp .hunk small,.cmp .chg small{display:block;font-family:Inter,sans-serif;color:var(--muted);margin-bottom:4px}.cmp .hunk ins,.cmp .hunk del{display:block}
+.cmp .ctx p{margin:0 0 10px}.cmp .cue{text-align:center}
+.cmpfig{margin:20px 0}.cmpfig .cap{border:0;padding:12px 0 0}
+@media (max-width:860px){.cs section{margin-top:56px}}
+.closing{margin-top:32px;padding:24px;border:1.5px solid var(--accent);background:var(--bg2)}.closing p:last-child{margin-bottom:0}
