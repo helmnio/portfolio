@@ -167,3 +167,11 @@ if(demo){
  const start=()=>setTimeout(()=>box.classList.add('run'),900);
  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();start()}},{threshold:.4});io.observe(box)}else start();
 })();
+// About page: highlight "Contact" in the menu while the contact section is in view
+(()=>{
+ const sec=document.getElementById('contact'),link=document.querySelector('nav a[href="about.html#contact"]'),about=document.querySelector('nav a[href="about.html"]');
+ if(!sec||!link||!about)return;
+ const set=on=>{if(on){about.removeAttribute('aria-current');link.setAttribute('aria-current','location')}else{link.removeAttribute('aria-current');about.setAttribute('aria-current','page')}};
+ const check=()=>set(sec.getBoundingClientRect().top<innerHeight*.5||innerHeight+scrollY>=document.documentElement.scrollHeight-4);
+ addEventListener('scroll',check,{passive:true});addEventListener('resize',check);check();
+})();
